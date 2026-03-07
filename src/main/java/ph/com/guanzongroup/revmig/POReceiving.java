@@ -7,7 +7,6 @@ package ph.com.guanzongroup.revmig;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.guanzon.appdriver.base.GRider;
-import org.guanzon.appdriver.base.GRiderCAS;
 import org.guanzon.appdriver.base.GuanzonException;
 import org.guanzon.appdriver.base.LogWrapper;
 import org.guanzon.appdriver.base.SQLUtil;
@@ -33,13 +32,12 @@ public class POReceiving {
             path = "D:/GGC_Maven_Systems";
         }
         else{
-            path = "/srv/mac/GGC_Maven_Systems";
+            path = "/srv/GGC_Maven_Systems";
         }
         
         System.setProperty("sys.default.path.temp", path + "/temp");
         System.setProperty("sys.default.path.config", path);
-        System.setProperty("sys.default.path.metadata", "D:/GGC_Java_Systems/metadata//");
-        
+        System.setProperty("sys.default.path.metadata", path + "/config/metadata/");
         
         String lsProdctID = "gRider";
 
