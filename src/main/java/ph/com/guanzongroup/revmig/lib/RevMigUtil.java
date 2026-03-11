@@ -431,4 +431,33 @@ public class RevMigUtil {
         loRes = foGRider.executeQuery(lsSQL);
         return loRes;
     }
+    
+    /**
+     * Converts a transaction number by transforming the 6th character (index 5) 
+     * from a numeric digit to its alphabetical equivalent.
+     * <p>
+     * The transformation follows a 0-based offset where:
+     * <ul>
+     * <li>'0' becomes 'A'</li>
+     * <li>'1' becomes 'B'</li>
+     * <li>...</li>
+     * <li>'9' becomes 'J'</li>
+     * </ul>
+     * * If the input string is null, shorter than 6 characters, or the 6th character 
+     * is not a digit, the original string is returned unchanged.
+     *
+     * @param lsTransNox the raw transaction string to be converted (e.g., "M00126000001")
+     * @return the converted transaction string (e.g., "M0012G000001"), 
+     * or the original string if validation fails.
+     */
+    public static String convertTransNox(String lsTransNox) {
+        // 1. Minimum length for index 5 to exist is 6, but your logic uses 7.
+        if (lsTransNox == null || lsTransNox.length() < 6) {
+            return lsTransNox; 
+        }
+
+        StringBuilder sb = new StringBuilder(lsTransNox);
+        sb.setCharAt(5, (char) ('A' + (lsTransNox.charAt(5) - '0')));
+        return sb.toString();
+    }    
 }
