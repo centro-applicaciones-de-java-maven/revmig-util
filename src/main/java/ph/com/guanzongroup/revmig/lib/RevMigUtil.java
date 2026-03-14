@@ -194,14 +194,14 @@ public class RevMigUtil {
         return row;
     }
     
-    public static Map<String, Object> row2Map(ResultSet rs) throws SQLException {
+    public static Map<String, Object> row2Map(ResultSet rs, String fsExclude) throws SQLException {
         // LinkedHashMap is used to ensure the column order is preserved.
         Map<String, Object> row = new LinkedHashMap<>();
 
         // Read metadata once outside the loop for efficiency.
         ResultSetMetaData meta = rs.getMetaData();
         int columnCount = meta.getColumnCount();
-
+        
         String format = "yyyy-MM-dd HH:mm:ss";
         
         // Iterate through columns using 1-based JDBC indexing.
@@ -210,6 +210,11 @@ public class RevMigUtil {
             String columnName = meta.getColumnLabel(i);
             Object value;
 
+            // Skip excluded column
+            if (fsExclude.contains(columnName)) {
+                continue;
+            }
+            
             try {
                 Object raw = rs.getObject(i);
 
@@ -280,7 +285,7 @@ public class RevMigUtil {
         return loChanges;
     }
 
-    public static Map<String, Object> createUpdateSQL(Map<String, Object> foData, String fsTableNme, String fsCondition) {
+    public static Map<String, Object> createUpdateSQL(Map<String, Object> foData, String fsTableNme, String fsCondition, String fsExclude) {
         Map<String, Object> loRet = new LinkedHashMap<>();
 
         try {
@@ -290,6 +295,11 @@ public class RevMigUtil {
                 String key = entry.getKey();
                 Object value = entry.getValue();
 
+                // Skip excluded column
+                if (fsExclude.contains(key)) {
+                    continue;
+                }
+                
                 if (updates.length() > 0) {
                     updates.append(", ");
                 }
@@ -313,7 +323,7 @@ public class RevMigUtil {
         return loRet;
     }    
     
-    public static Map<String, Object> createInsertSQL(Map<String, Object> foData, String fsTableNme) {
+    public static Map<String, Object> createInsertSQL(Map<String, Object> foData, String fsTableNme, String fsExclude) {
         Map<String, Object> loRet = new LinkedHashMap<>();
 
         try {
@@ -324,6 +334,12 @@ public class RevMigUtil {
             for (Map.Entry<String, Object> entry : foData.entrySet()) {
                 String key = entry.getKey();
                 Object value = entry.getValue();
+
+                // Skip excluded column
+                if (fsExclude.contains(key)) {
+                    continue;
+                }
+
                 System.out.println(key + ":" + value);
                 if (value != null) {
                     if (fields.length() > 0) {
@@ -363,7 +379,7 @@ public class RevMigUtil {
         return loRet;
     }    
     
-    public static Map<String, Object> createUpdateSQL(Map<String, Object> foNewData, Map<String, Object> foOldData, String fsTableNme, String fsCondition) {
+    public static Map<String, Object> createUpdateSQL(Map<String, Object> foNewData, Map<String, Object> foOldData, String fsTableNme, String fsCondition, String fsExclude) {
         Map<String, Object> loRet = new LinkedHashMap<>();
 
         try {
@@ -375,23 +391,27 @@ public class RevMigUtil {
                 Object newValue = entry.getValue();
                 Object oldValue = foOldData.get(key);
 
-                Set<String> excludedKeys = new HashSet<>(Arrays.asList("dtimestmp", "dmodified", "smodified"));
-                if (!excludedKeys.contains(key.toLowerCase())) {
-//                    boolean isChanged = (newValue == null && oldValue != null) ||
-//                                        (newValue != null && !newValue.equals(oldValue));
-                    boolean isChanged = !SQLUtil.equalValue(oldValue, newValue);
-
-                    if (isChanged){
-                        if (updates.length() > 0) {
-                            updates.append(", ");
-                        }
-
-                        updates.append(key).append(" = ");
-                        updates.append(SQLUtil.toSQL(newValue));
-
-                        loUpd.put(key, newValue);
-                    }
+                fsExclude += ":dtimestmp";
+                // Skip excluded column
+                if (fsExclude.contains(key)) {
+                    continue;
                 }
+                
+//                Set<String> excludedKeys = new HashSet<>(Arrays.asList("dtimestmp", "dmodified", "smodified"));
+//                if (!excludedKeys.contains(key.toLowerCase())) {
+                boolean isChanged = !SQLUtil.equalValue(oldValue, newValue);
+
+                if (isChanged){
+                    if (updates.length() > 0) {
+                        updates.append(", ");
+                    }
+
+                    updates.append(key).append(" = ");
+                    updates.append(SQLUtil.toSQL(newValue));
+
+                    loUpd.put(key, newValue);
+                }
+//                }
             }
 
             if (updates.length() == 0) {

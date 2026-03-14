@@ -40,7 +40,7 @@ public class POReceivingNew {
         
         System.setProperty("sys.default.path.temp", path + "/temp");
         System.setProperty("sys.default.path.config", path);
-        System.setProperty("sys.default.path.metadata", "D:/GGC_Java_Systems/metadata//");
+        System.setProperty("sys.default.path.metadata", "D:/GGC_Java_Systems/metadata/");
         
         
         String lsProdctID = "gRider";
@@ -72,7 +72,7 @@ public class POReceivingNew {
             while(loRSMaster.next()){
                 String lsTransNox = loRSMaster.getString("sTransNox");
                 String lxTransNox = RevMigUtil.convertTransNox(lsTransNox);
-                String lsBranchCD = lsTransNox.substring(0, 5);
+                String lsBranchCD = lsTransNox.substring(0, 4);
 
                 logwrapr.info("Processing: " + lsTransNox);
                 ResultSet loRSDetail = getDetail(lsTransNox);
@@ -113,8 +113,8 @@ public class POReceivingNew {
                 }
 
                 //assigned master
-                System.out.println("Assigning master");
-                loJson = poControl.setMaster(loRSMaster);
+                System.out.println("Assigning master...");
+                loJson = poControl.setMaster(loRSMaster, "sTableNme:cLastStat");
                 if(!"success".equals((String) loJson.get("result"))){
                     System.out.println(loJson.toJSONString());
                     System.out.println(0);
@@ -176,39 +176,33 @@ public class POReceivingNew {
                     return;
                 }
 
-                //post po
-
-                System.out.println("Confirming to GN_PO_Receiving - " + loRSMaster.getString("sTransNox"));
-                loJson = poControl.confirmTransaction();
-                if(!"success".equals((String) loJson.get("result"))){
-                    System.out.println(loJson.toJSONString());
-                    System.out.println(0);
-                    return;
+                String lsSQL;
+                lsSQL = "INSERT INTO Demigration_Map" +
+                       " SET sTableNme = 'PO_Receiving_Master'" + 
+                          ", sTransNox = " + SQLUtil.toSQL(loRSMaster.getString("sTransNox")) +
+                          ", cLastStat = " + SQLUtil.toSQL(loRSMaster.getString("cTranStat"));
+                poGRider.executeUpdate(lsSQL);
+                
+                if(loRSMaster.getString("cLastStat").isEmpty()){
+                    System.out.println("Confirming to GN_PO_Receiving - " + loRSMaster.getString("sTransNox"));
+                    loJson = poControl.confirmTransaction();
+                    if(!"success".equals((String) loJson.get("result"))){
+                        System.out.println(loJson.toJSONString());
+                        System.out.println(0);
+                        return;
+                    }
                 }
+                else if(loRSMaster.getString("cLastStat").equalsIgnoreCase("1")){
+                    if(loRSMaster.getString("cTranStat").equalsIgnoreCase("2")){
+                        
+                    }
+                }
+                
             }
         } catch (SQLException | GuanzonException e) {
             e.printStackTrace();
             System.exit(1);
         }
-    }
-    
-    private static String getLastPOReceiving(String fsBranchCD) throws SQLException{
-        String lsSQL = "SELECT sTransNox" + 
-                      " FROM GN_PO_Receiving_Master" + 
-                      " WHERE sTransNox LIKE " + SQLUtil.toSQL(fsBranchCD + "%") +
-                      " ORDER BY sTransNox DESC" + 
-                      " LIMIT 1";
-        ResultSet loRS = poGRider.executeQuery(lsSQL);
-        
-        String lsTransNox;
-        if(loRS.next()){
-            lsTransNox = loRS.getString("sTransNox");
-        }
-        else{
-            lsTransNox = fsBranchCD + "00000000";
-        }
-        
-        return lsTransNox;
     }
     
     private static ResultSet getMaster() throws SQLException{
@@ -241,11 +235,12 @@ public class POReceivingNew {
 			", a.sModified"	+
 			", a.dModified" +
                         ", IFNULL(b.sTableNme, '') sTableNme" +
+			", IFNULL(b.cLastStat, '') cLastStat" +	
                     " FROM GCASys_DBF.PO_Receiving_Master a" + 
                             " LEFT JOIN Demigration_Map b" +
                                 " ON a.sTransNox = b.sTransNox" +
                                " AND b.sTableNme = " + SQLUtil.toSQL(TABLE_NAME) +
-                    " WHERE a.cTranStat >= '1'" +
+                    " WHERE a.cTranStat IN ('1', '2')" +
                       " AND (b.sTransNox IS NULL OR a.cTranStat <> b.cLastStat)" +
                       " AND a.sIndstCdx = " + SQLUtil.toSQL(INDUSTRY) + 
                     " ORDER BY sTransNox";
@@ -423,7 +418,6 @@ public class POReceivingNew {
                     ", dModified = " + SQLUtil.toSQL(loRS.getObject("dModified"));
         poGRider.executeQuery(lsSQL, "GN_Inventory_Serial", "", "");
     }
-    
 }
 
 

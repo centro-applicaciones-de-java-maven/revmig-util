@@ -54,7 +54,7 @@ public class POReceivingController {
             return loJson;
         }
         
-        loJson = poMaster.setValue(foRs);
+        loJson = poMaster.setValue(foRs, "");
         if(!"success".equals((String) loJson.get("result"))){
             return loJson;
         }
@@ -128,7 +128,7 @@ public class POReceivingController {
 
         //assigned value to detail
         Model_Base loDetail = poDetail.get(fnKey);
-        loDetail.setValue(foRs);
+        loDetail.setValue(foRs, "");
         poDetail.set(fnKey, loDetail);
 
         loJson.put("result", "success");
@@ -197,7 +197,7 @@ public class POReceivingController {
 
         //assigned value to detail
         Model_Base loDetail = poSerial.get(fnKey);
-        loDetail.setValue(foRs);
+        loDetail.setValue(foRs, "");
         poSerial.set(fnKey, loDetail);
 
         loJson.put("result", "success");

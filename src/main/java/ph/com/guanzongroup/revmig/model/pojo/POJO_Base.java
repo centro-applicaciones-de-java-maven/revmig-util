@@ -51,10 +51,13 @@ public class POJO_Base {
         return poMeta;
     }
 
-    public JSONObject setValue(ResultSet foRS) throws SQLException {
-        Map<String, Object> loData = RevMigUtil.row2Map(foRS);
+    public JSONObject setValue(ResultSet foRS, String fsExclude) throws SQLException {
+        Map<String, Object> loData = RevMigUtil.row2Map(foRS, fsExclude);
         JSONObject loJson = new JSONObject();
 
+        System.out.println(loData);
+        System.out.println(poData);
+        
         if (poData == null || loData == null || !loData.keySet().equals(poData.keySet())) {
             loJson.put("result", "error");
             loJson.put("message", "Key mismatch between expected and received data.");

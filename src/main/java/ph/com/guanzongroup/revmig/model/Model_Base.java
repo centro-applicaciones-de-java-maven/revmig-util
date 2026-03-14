@@ -37,8 +37,8 @@ public class Model_Base {
         poData.setValue(fsKey, foValue);
     }
 
-    public JSONObject setValue(ResultSet foRS) throws SQLException {
-        return poData.setValue(foRS);
+    public JSONObject setValue(ResultSet foRS, String fsExclude) throws SQLException {
+        return poData.setValue(foRS, fsExclude);
     }
     
     public Object getValue(String fsKey){
@@ -109,7 +109,7 @@ public class Model_Base {
         JSONObject loJson;
 
         //Save the value to the current poData Object
-        loJson = poData.setValue(foRS);
+        loJson = poData.setValue(foRS, "");
         if(!"success".equals((String) loJson.get("result"))){
             return loJson;
         }
@@ -149,11 +149,11 @@ public class Model_Base {
         System.out.println(poData.getValue().toString());
         System.out.println("poData.getValue().toString()++++++++++++++++++++++++++++");
         if(pnEditMode == EditMode.ADDNEW){
-            result = RevMigUtil.createInsertSQL(poData.getValue(), psTableNme);
+            result = RevMigUtil.createInsertSQL(poData.getValue(), psTableNme, "");
             System.out.println(result.get("json"));
         }
         else{
-            result = RevMigUtil.createUpdateSQL(poData.getValue(), poOldData.getValue(), psTableNme, psFilter);
+            result = RevMigUtil.createUpdateSQL(poData.getValue(), poOldData.getValue(), psTableNme, psFilter, "");
             System.out.println(result.get("json"));
         }
 

@@ -184,10 +184,22 @@ public class POReceiving {
             }
 
             if(!lsTransNox.isEmpty()){
+                String lsSQL;
+                lsSQL = "INSERT INTO GGC_ISysDBF.Demigration_Map(sTableNme, sTransNox, cLastStat)" +
+                        " SELECT 'PO_Receiving_Master', pm.sTransNox, pm.cTranStat" +
+                        " FROM PO_Receiving_Master pm" +
+                        " WHERE pm.cTranStat IN('1', '2')" +
+                        "  AND NOT EXISTS (" +
+                            " SELECT 1" +
+                            " FROM GGC_ISysDBF.Demigration_Map dm" +
+                            " WHERE dm.sTableNme = 'PO_Receiving_Master'" +
+                              " AND dm.sTransNox = pm.sTransNox)";
+                poGRider.executeUpdate(lsSQL);
+                
             //poGRider.beginTrans();
             //Make sure to post the transaction so that it will not be downloaded again...
                 poGRider.executeUpdate("USE GCASys_DBF");
-                String lsSQL = "UPDATE PO_Receiving_Master" + 
+                lsSQL = "UPDATE PO_Receiving_Master" + 
                               " SET cTranStat = '2'" + 
                               " WHERE cTranStat = '1'";
                 System.out.println(lsSQL);
