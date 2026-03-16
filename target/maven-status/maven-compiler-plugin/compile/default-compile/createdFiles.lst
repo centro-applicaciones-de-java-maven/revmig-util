@@ -1,10 +1,13 @@
 ph\com\guanzongroup\revmig\BankTrans.class
 ph\com\guanzongroup\revmig\lib\RevMigUtil$2.class
+ph\com\guanzongroup\revmig\PODemigration.class
 ph\com\guanzongroup\revmig\POReceivingNew.class
 ph\com\guanzongroup\revmig\lib\RevMigAPClientTrans.class
 ph\com\guanzongroup\revmig\lib\RevMigInvConstant.class
 ph\com\guanzongroup\revmig\lib\RevMigInvTrans$SerialEntry.class
 ph\com\guanzongroup\revmig\controller\POReceivingController.class
+ph\com\guanzongroup\revmig\DisbursementDemigration.class
+ph\com\guanzongroup\revmig\PRFDemigration.class
 ph\com\guanzongroup\revmig\controller\POReceivingControllerNew.class
 ph\com\guanzongroup\revmig\testPOReceiving.class
 ph\com\guanzongroup\revmig\lib\RevMigInvTrans.class
