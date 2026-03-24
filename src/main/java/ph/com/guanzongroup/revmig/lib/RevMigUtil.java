@@ -245,9 +245,6 @@ public class RevMigUtil {
                 } else {
                     value = raw;
                 }
-                
-                
-                
             } catch (SQLException ex) {
                 // Critical Workaround: Handle the specific SQL error for illegal dates ('0000-00-00')
                 // This is common in some MySQL/MariaDB configurations.

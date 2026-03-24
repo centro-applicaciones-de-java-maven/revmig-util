@@ -5,6 +5,7 @@ ph\com\guanzongroup\revmig\POReceivingNew.class
 ph\com\guanzongroup\revmig\lib\RevMigAPClientTrans.class
 ph\com\guanzongroup\revmig\lib\RevMigInvConstant.class
 ph\com\guanzongroup\revmig\lib\RevMigInvTrans$SerialEntry.class
+ph\com\guanzongroup\migration\util\PopulateColumnTable.class
 ph\com\guanzongroup\revmig\controller\POReceivingController.class
 ph\com\guanzongroup\revmig\DisbursementDemigration.class
 ph\com\guanzongroup\revmig\PRFDemigration.class
@@ -13,6 +14,7 @@ ph\com\guanzongroup\revmig\testPOReceiving.class
 ph\com\guanzongroup\revmig\lib\RevMigInvTrans.class
 ph\com\guanzongroup\revmig\lib\RevMigUtil$1.class
 ph\com\guanzongroup\revmig\model\pojo\POJO_Base.class
+ph\com\guanzongroup\revmig\lib\RevMigBankAccountTrans.class
 ph\com\guanzongroup\revmig\lib\RevMigInvTrans$DetailEntry.class
 ph\com\guanzongroup\revmig\model\Model_Base.class
 ph\com\guanzongroup\revmig\lib\RevMigUtil.class
