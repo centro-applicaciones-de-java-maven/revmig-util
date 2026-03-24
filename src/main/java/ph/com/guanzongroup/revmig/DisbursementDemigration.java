@@ -28,7 +28,7 @@ public class DisbursementDemigration {
     
     static GRider poGRider;
 
-    public static void main(String args[]) throws SQLException{
+    public static void main(String args[]) throws SQLException, GuanzonException{
         LogWrapper logwrapr = new LogWrapper("Disbursement Transaction Reverse Migration", "revmig-po.log");
 
         //Set important path configuration for this utility
@@ -118,8 +118,8 @@ public class DisbursementDemigration {
             }
 
             String lsSourceCD = loRSDisbOthers.getString("sSourceCD");
-            String lsClientID;
-            double lnCredtTot;
+            String lsClientID = "";
+            double lnCredtTot = 0;
             //Check if from SOA(SOAt) or from Purchase Delivery(PODA) and create a AP Payment transaction if it does
             if("SOAt:PODA".contains(lsSourceCD)){
                 //Process the record for AP_Payment_Detail
@@ -172,9 +172,11 @@ public class DisbursementDemigration {
                     poGRider.rollbackTrans();
                     System.exit(0);
                 }
-            }
 
-            //TODO:Perform the posting of 
+                //TODO:Perform the posting of 
+                postDisbursement(loRSMaster, lxTransNox, lsClientID, lnCredtTot);
+
+            }
 
             //Record that this record was demigrated to the old system
             lsSQL = "INSERT INTO Demigration_Map" +

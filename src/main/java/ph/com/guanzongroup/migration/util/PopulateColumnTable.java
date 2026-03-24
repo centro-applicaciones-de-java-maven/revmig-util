@@ -127,20 +127,28 @@ public class PopulateColumnTable {
             Map<String, Object> column = new LinkedHashMap<>();
             Map<String, Object> columx = new LinkedHashMap<>();
 
-            String sql = MiscUtil.addCondition(lsSQL,
-                        " sTableNme = " + SQLUtil.toSQL(fsTableNme) +
-                    " AND sColumnNm = " + SQLUtil.toSQL(foRS.getMetaData().getColumnName(lnCtr)));
+            String lsFilter = " sTableNme = " + SQLUtil.toSQL(fsTableNme) +
+                    " AND sColumnNm = " + SQLUtil.toSQL(foRS.getMetaData().getColumnName(lnCtr));
+            
+            String sql = MiscUtil.addCondition(lsSQL, lsFilter);
 
             ResultSet oRS = foGRider.executeQuery(sql);
             
-            sql = MiscUtil.getNextCode("xxxSysColumn", "sColumnID", false, foGRider.getConnection(), "");
-            column.put("sColumnID", sql);  
+            if(!oRS.next()){
+                sql = MiscUtil.getNextCode("xxxSysColumn", "sColumnID", false, foGRider.getConnection(), "");
+                column.put("sColumnID", sql);  
+            } 
+            else{
+                columx = RevMigUtil.row2Map(oRS, "");
+                column = RevMigUtil.row2Map(oRS, "");
+            }
+
             column.put("sTableNme", fsTableNme);
             column.put("sColumnNm", meta.getColumnName(lnCtr));
             column.put("sColLabel", meta.getColumnLabel(lnCtr));
             column.put("nPosition", lnCtr);
             column.put("nColumnTp", meta.getColumnType(lnCtr));
-            column.put("cIsNullxx", meta.isNullable(lnCtr));
+            column.put("cIsNullxx", String.valueOf(meta.isNullable(lnCtr)));
             column.put("nLengthxx", meta.getColumnDisplaySize(lnCtr));
             column.put("nPrecisnx", meta.getPrecision(lnCtr));
             column.put("nScalexxx", meta.getScale(lnCtr));
@@ -148,11 +156,22 @@ public class PopulateColumnTable {
             column.put("sModified", "marlon");
             column.put("dModified", foGRider.getServerDate());
 
-            Map<String, Object> loData = RevMigUtil.createInsertSQL(column, "xxxSysColumn", "");
+            Map<String, Object> loData;
             
-            System.out.println(loData.get("sql"));
+            if(columx.isEmpty()){
+                loData = RevMigUtil.createInsertSQL(column, "xxxSysColumn", "");
+            }
+            else
+            {
+                loData = RevMigUtil.createUpdateSQL(column, columx, "xxxSysColumn", lsFilter, "dModified");
+            }
             
-            poGRider.executeUpdate(loData.get("sql").toString());
+            sql = loData.get("sql").toString();
+            System.out.println(sql);
+            
+            if(!sql.isEmpty()){
+                poGRider.executeUpdate(sql);
+            }
         }
         return true;
     }
