@@ -311,12 +311,14 @@ public class POReceivingControllerNew {
         //load master record
         lsSQL = "SELECT * FROM " + psTableMaster + 
                " WHERE sTransNox = " + SQLUtil.toSQL(fsTransNox);
+        System.out.println(lsSQL);
         loRS = poGRider.executeQuery(lsSQL);
         if(!loRS.next()){
             loJson.put("result", "error");
             loJson.put("message", "No record found");
             return loJson;
         }
+
         loJson = poMaster.loadTransaction(loRS, "sTransNox = " + SQLUtil.toSQL(fsTransNox));
         if(!"success".equals((String) loJson.get("result"))){
             return loJson;

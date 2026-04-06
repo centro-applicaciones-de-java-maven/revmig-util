@@ -659,10 +659,9 @@ public class RevMigBankAccountTrans {
                         ", sSourceNo = " + SQLUtil.toSQL(psSourceNo) + 
                         ", nAmountIn = " + SQLUtil.toSQL(pnAmountIn) + 
                         ", nAmountOt = " + SQLUtil.toSQL(pnAmountOt) + 
-                        ", nABalance = " + SQLUtil.toSQL(poMaster.getDouble("nABalance") + (pnATranAmt)) +
-                        ", nOBalance = " + SQLUtil.toSQL(poMaster.getDouble("nABalance") + (pnOTranAmt)) +
+                        ", nABalance = " + SQLUtil.toSQL(poMaster.getDouble("nABegBalx") + (pnATranAmt)) +
+                        ", nOBalance = " + SQLUtil.toSQL(poMaster.getDouble("nABegBalx") + (pnOTranAmt)) +
                         ", dPostedxx = NULL" + 
-                        ", cTranStat = '1'" +
                         ", dModified = " + SQLUtil.toSQL(poGRider.getServerDate());
 
         if (poGRider.executeQuery(lsSQL, DETAIL_TABLE, psBranchCd, "") <= 0) {

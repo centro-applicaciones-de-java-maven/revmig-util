@@ -106,7 +106,8 @@ public class DisbursementDemigration {
             lsSQL = (String) result.get("sql");
 
             poGRider.beginTrans();
-            String lsBranchCD = lxTransNox.substring(0, 4);
+            //String lsBranchCD = lxTransNox.substring(0, 4);
+            String lsBranchCD = loRSMaster.getString("sBranchCD");
             
             //Write the insert statement in Check_Disbursement
             if(!lsSQL.isEmpty()){
@@ -118,6 +119,7 @@ public class DisbursementDemigration {
             }
 
             String lsSourceCD = loRSDisbOthers.getString("sSourceCD");
+            String lsSourceNo = loRSDisbOthers.getString("sSourceNo");
             String lsClientID = "";
             double lnCredtTot = 0;
             //Check if from SOA(SOAt) or from Purchase Delivery(PODA) and create a AP Payment transaction if it does
@@ -148,7 +150,7 @@ public class DisbursementDemigration {
                 }while(loRSDisbOthers.next());    
                 
                 //get Client ID of the source transaction
-                lsClientID = getClientString(loRSDisbOthers.getString("sSourceNo"), lsSourceCD);
+                lsClientID = getClientString(lsSourceNo, lsSourceCD);
                 
                 //create the AP Payment transaction from Disbursement_Master
                 lsSQL = "INSERT INTO AP_Payment_Master" + 
@@ -174,8 +176,7 @@ public class DisbursementDemigration {
                 }
 
                 //TODO:Perform the posting of 
-                postDisbursement(loRSMaster, lxTransNox, lsClientID, lnCredtTot);
-
+                postDisbursement(loRSMaster, lsBranchCD, lxTransNox, lsClientID, lnCredtTot);
             }
 
             //Record that this record was demigrated to the old system
@@ -241,9 +242,10 @@ public class DisbursementDemigration {
     }
     
     private static ResultSet getDisbOthers(String fsTransNox) throws SQLException{
-        String lsSQL = "SELECT a.sPrtclrID, a.sSourceCd, a.sSourceNo, IFNULL(b.sAcctCode, '') sAcctCode, a.nEntryNox, a.dModified, a.nAmountxx, a.nAmtAppld" +
+        String lsSQL = "SELECT a.sPrtclrID, a.sSourceCd, a.sSourceNo, IFNULL(b.sAcctCode, '') sAcctCode, a.nEntryNox, c.dModified, a.nAmountxx, a.nAmtAppld" +
                       " FROM GCASys_DBF.Disbursement_Detail a" +
                            " LEFT JOIN GCASys_DBF.Particular b ON a.sPrtclrID = b.sPrtclrID" +
+                           " LEFT JOIN GCASys_DBF.Disbursement_Master c on a.sTransNox = c.sTransNox" +
                       " WHERE a.sTransNox = " + SQLUtil.toSQL(fsTransNox);
         
         ResultSet loRS = poGRider.executeQuery(lsSQL);
@@ -272,8 +274,8 @@ public class DisbursementDemigration {
         return "";
     }    
     
-    private static boolean postDisbursement(ResultSet foRS, String fsTransNox, String fsClientID, double fnCredtTot) throws SQLException, GuanzonException{
-        RevMigAPClientTrans loClient = new RevMigAPClientTrans(poGRider, fsTransNox);
+    private static boolean postDisbursement(ResultSet foRS, String fsBranchCD, String fsTransNox, String fsClientID, double fnCredtTot) throws SQLException, GuanzonException{
+        RevMigAPClientTrans loClient = new RevMigAPClientTrans(poGRider, fsBranchCD);
         JSONObject loJson = loClient.PaymentIssue(fsClientID, fsTransNox, foRS.getDate("dTransact"), foRS.getDouble("nTranTotl") + fnCredtTot, false);
 
         if(!((String)loJson.get("result")).equalsIgnoreCase("success")){

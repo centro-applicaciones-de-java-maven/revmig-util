@@ -93,6 +93,7 @@ public class POReceivingNew {
                     return;
                 }
                 
+                System.out.println("Tablle: " + loRSMaster.getString("sTableNme"));
                 if(loRSMaster.getString("sTableNme").isEmpty()){
                     //create new transaction
                     System.out.println("Calling new");
@@ -104,6 +105,7 @@ public class POReceivingNew {
                     }
                 }
                 else{
+                    System.out.println("Opening transaction: " + lxTransNox);
                     loJson = poControl.openTransaction(lxTransNox);
                     if(!"success".equals((String) loJson.get("result"))){
                         System.out.println(loJson.toJSONString());
