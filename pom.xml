@@ -23,10 +23,11 @@
             <scope>test</scope>
             <type>jar</type>
         </dependency>
+        <!-- Controls -->
         <dependency>
-          <groupId>org.openjfx</groupId>
-          <artifactId>javafx-controls</artifactId>
-          <version>21</version>
+            <groupId>com.ibm.icu</groupId>
+            <artifactId>icu4j</artifactId>
+            <version>75.1</version> <!-- latest stable release -->
         </dependency>
     </dependencies>
     <properties>

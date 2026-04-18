@@ -17,5 +17,6 @@ ph\com\guanzongroup\revmig\model\pojo\POJO_Base.class
 ph\com\guanzongroup\revmig\lib\RevMigBankAccountTrans.class
 ph\com\guanzongroup\revmig\lib\RevMigInvTrans$DetailEntry.class
 ph\com\guanzongroup\revmig\model\Model_Base.class
+ph\com\guanzongroup\revmig\model\List_Model_Base.class
 ph\com\guanzongroup\revmig\lib\RevMigUtil.class
 ph\com\guanzongroup\revmig\POReceiving.class

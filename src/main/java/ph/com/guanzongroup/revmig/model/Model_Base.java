@@ -82,7 +82,7 @@ public class Model_Base {
         loJson.put("result", "success");
         return loJson;
     }
-    
+
     public JSONObject newTransaction() throws SQLException{
         JSONObject loJson = new JSONObject();
         if(!pbInitTrans){

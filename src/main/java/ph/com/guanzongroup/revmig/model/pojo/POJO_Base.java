@@ -6,6 +6,7 @@ package ph.com.guanzongroup.revmig.model.pojo;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +17,8 @@ import ph.com.guanzongroup.revmig.lib.RevMigUtil;
  *
  * @author Administrator
  */
-public class POJO_Base {
+
+public class POJO_Base implements Cloneable{
     private final String psTableNme; 
     private final List<Map<String, Object>> poMeta;
 
@@ -57,12 +59,18 @@ public class POJO_Base {
 
         System.out.println(loData);
         System.out.println(poData);
+
+//        if (poData == null || loData == null || !loData.keySet().equals(poData.keySet())) {
+//            loJson.put("result", "error");
+//            loJson.put("message", "Key mismatch between expected and received data.");
+//            return loJson;
+//        }
         
-        if (poData == null || loData == null || !loData.keySet().equals(poData.keySet())) {
-            loJson.put("result", "error");
-            loJson.put("message", "Key mismatch between expected and received data.");
-            return loJson;
-        }
+//        if (!loData.keySet().equals(poData.keySet())) {
+//            loJson.put("result", "error");
+//            loJson.put("message", "Key mismatch between expected and received data.");
+//            return loJson;
+//        }
 
         poData = loData;
         loJson.put("result", "success");
@@ -86,10 +94,19 @@ public class POJO_Base {
     }
     
     public Map<String, Object> getValue(){
-        return poData;
+        return new LinkedHashMap<>(poData);
     }
     
     public String getTableName(){
         return psTableNme;
+    }
+    
+    @Override
+    public POJO_Base clone() throws CloneNotSupportedException {
+        try {
+            return (POJO_Base) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

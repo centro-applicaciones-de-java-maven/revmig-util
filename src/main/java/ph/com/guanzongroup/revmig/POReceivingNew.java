@@ -110,7 +110,7 @@ public class POReceivingNew {
                     if(!"success".equals((String) loJson.get("result"))){
                         System.out.println(loJson.toJSONString());
                         System.out.println(0);
-                        return;
+                        continue;
                     }
                 }
 
@@ -243,7 +243,7 @@ public class POReceivingNew {
                                 " ON a.sTransNox = b.sTransNox" +
                                " AND b.sTableNme = " + SQLUtil.toSQL(TABLE_NAME) +
                     " WHERE a.cTranStat IN ('1', '2')" +
-                      " AND (b.sTransNox IS NULL OR a.cTranStat <> b.cLastStat)" +
+                      " AND (b.sTransNox IS NULL OR a.cTranStat > b.cLastStat)" +
                       " AND a.sIndstCdx = " + SQLUtil.toSQL(INDUSTRY) + 
                     " ORDER BY sTransNox";
 
