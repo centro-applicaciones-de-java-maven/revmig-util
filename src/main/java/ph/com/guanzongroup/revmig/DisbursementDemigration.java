@@ -12,6 +12,7 @@ import org.guanzon.appdriver.base.GuanzonException;
 import org.guanzon.appdriver.base.LogWrapper;
 import org.guanzon.appdriver.base.SQLUtil;
 import org.json.simple.JSONObject;
+import static ph.com.guanzongroup.revmig.POReceivingNew.poGRider;
 import ph.com.guanzongroup.revmig.lib.RevMigAPClientTrans;
 import ph.com.guanzongroup.revmig.lib.RevMigBankAccountTrans;
 import ph.com.guanzongroup.revmig.lib.RevMigUtil;
@@ -75,6 +76,11 @@ public class DisbursementDemigration {
 
             //Extract additional information needed to demigrate disbursement successfully
             ResultSet loRSDisbOthers = getDisbOthers(loRSMaster.getString("sTransNox"));
+
+            //Check if particular is existing in the old
+            checkParticular(loRSDisbOthers);
+            
+            loRSDisbOthers.beforeFirst();
             if(!loRSDisbOthers.next()){
                 String lsMessage = "Cannot find additional information for " + loRSMaster.getString("sTransNox");
                 System.out.println(lsMessage);
@@ -183,7 +189,8 @@ public class DisbursementDemigration {
             lsSQL = "INSERT INTO Demigration_Map" +
                    " SET sTableNme = 'Disbursement_Master'" + 
                       ", sTransNox = " + SQLUtil.toSQL(loRSMaster.getString("sTransNox")) +
-                      ", cLastStat = " + SQLUtil.toSQL(loRSMaster.getString("cTranStat"));
+                      ", cLastStat = " + SQLUtil.toSQL("4");
+//                      ", cLastStat = " + SQLUtil.toSQL(loRSMaster.getString("cTranStat"));
             poGRider.executeUpdate(lsSQL);
             
             poGRider.commitTrans();
@@ -211,7 +218,7 @@ public class DisbursementDemigration {
                         ", c.cPrintxxx cChckPrnt" +
                         ", c.dPrintxxx dChckPrnt" +
                         ", '0' cRemitnce" +
-                        ", a.cTranStat" +
+                        ", '1' cTranStat" +
                         ", '' sSourceCd" +
                         ", '' sSourceNo" +
                         ", '1' cUseCltNm" +
@@ -298,4 +305,49 @@ public class DisbursementDemigration {
 
         return true;
     }
+    
+    
+    
+    private static void checkParticular(ResultSet foRS) throws SQLException, GuanzonException{
+        System.out.println("Checkitem beforefirst");
+        foRS.beforeFirst();
+        while(foRS.next()){
+            String lsSQL = "SELECT sPrtclrID" + 
+                          " FROM Particular" +  
+                          " WHERE sPrtclrID = " + SQLUtil.toSQL(foRS.getString("sStockIDx")); 
+            System.out.println(lsSQL);
+            ResultSet loRS = poGRider.executeQuery(lsSQL);
+            
+            if(!loRS.next()){
+                System.out.println("Copying Particular: " + foRS.getString("sPrtclrID"));
+                copyParticulars(foRS.getString("sPrtclrID"));
+            }
+        }
+    }
+
+    private static void copyParticulars(String fsPrtclrID) throws SQLException, GuanzonException{
+        String lsSQL = "SELECT" +
+			"  sPrtclrID" +	
+			", sDescript" +	
+			", sAcctCode" +	
+			", cRecdStat" +	
+			", sModified" +	
+			", dModified" +	
+                    " FROM GCASys_DBF.Particular" +  
+                    " WHERE sPrtclrID = " + SQLUtil.toSQL(fsPrtclrID); 
+        System.out.println(lsSQL);
+        ResultSet loRS = poGRider.executeQuery(lsSQL);
+        
+        loRS.next();
+        
+        lsSQL = "INSERT INTO Particular SET " + 
+                    "  sPrtclrID = " + SQLUtil.toSQL(loRS.getObject("sPrtclrID")) +
+                    ", sDescript = " + SQLUtil.toSQL(loRS.getObject("sDescript")) +
+                    ", sAcctCode = " + SQLUtil.toSQL(loRS.getObject("sAcctCode")) +
+                    ", cRecdStat = " + SQLUtil.toSQL(loRS.getObject("cRecdStat")) +
+                    ", sModified = " + SQLUtil.toSQL(loRS.getObject("sModified")) +
+                    ", dModified = " + SQLUtil.toSQL(loRS.getObject("dModified"));
+        poGRider.executeQuery(lsSQL, "Particular", "", "");
+    }    
+    
 }

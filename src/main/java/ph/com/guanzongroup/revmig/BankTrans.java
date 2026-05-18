@@ -15,7 +15,7 @@ import org.guanzon.appdriver.base.GRider;
 import org.guanzon.appdriver.base.LogWrapper;
 import org.guanzon.appdriver.base.MiscUtil;
 import org.guanzon.appdriver.base.SQLUtil;
-import static ph.com.guanzongroup.revmig.POReceiving.poGRider;
+import static ph.com.guanzongroup.revmig.POReceiving_old.poGRider;
 
 /**
  *

@@ -12,7 +12,7 @@ D:\GMC_SEG_Folder-CAS\revmig-util\src\main\java\ph\com\guanzongroup\revmig\model
 D:\GMC_SEG_Folder-CAS\revmig-util\src\main\java\ph\com\guanzongroup\revmig\model\Model_Base.java
 D:\GMC_SEG_Folder-CAS\revmig-util\src\main\java\ph\com\guanzongroup\revmig\model\pojo\POJO_Base.java
 D:\GMC_SEG_Folder-CAS\revmig-util\src\main\java\ph\com\guanzongroup\revmig\PODemigration.java
-D:\GMC_SEG_Folder-CAS\revmig-util\src\main\java\ph\com\guanzongroup\revmig\POReceiving.java
+D:\GMC_SEG_Folder-CAS\revmig-util\src\main\java\ph\com\guanzongroup\revmig\POReceiving_old.java
 D:\GMC_SEG_Folder-CAS\revmig-util\src\main\java\ph\com\guanzongroup\revmig\POReceivingNew.java
 D:\GMC_SEG_Folder-CAS\revmig-util\src\main\java\ph\com\guanzongroup\revmig\PRFDemigration.java
 D:\GMC_SEG_Folder-CAS\revmig-util\src\main\java\ph\com\guanzongroup\revmig\testPOReceiving.java

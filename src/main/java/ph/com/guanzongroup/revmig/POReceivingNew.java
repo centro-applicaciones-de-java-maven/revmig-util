@@ -92,7 +92,8 @@ public class POReceivingNew {
                     System.out.println(0);
                     return;
                 }
-                
+
+                boolean lbNew;
                 System.out.println("Tablle: " + loRSMaster.getString("sTableNme"));
                 if(loRSMaster.getString("sTableNme").isEmpty()){
                     //create new transaction
@@ -103,6 +104,7 @@ public class POReceivingNew {
                         System.out.println(0);
                         return;
                     }
+                    lbNew = true;
                 }
                 else{
                     System.out.println("Opening transaction: " + lxTransNox);
@@ -112,6 +114,7 @@ public class POReceivingNew {
                         System.out.println(0);
                         continue;
                     }
+                    lbNew = false;
                 }
 
                 //assigned master
@@ -127,12 +130,14 @@ public class POReceivingNew {
                 int lnctr = 0;
                 loRSDetail.beforeFirst();
                 while(loRSDetail.next()){
-                    loJson = poControl.addDetail();
-                    if(!"success".equals((String) loJson.get("result"))){
-                        System.out.println(loJson.toJSONString());
-                        return;
+                    if(lbNew){
+                        loJson = poControl.addDetail();
+                        if(!"success".equals((String) loJson.get("result"))){
+                            System.out.println(loJson.toJSONString());
+                            return;
 
-                        //continue;
+                            //continue;
+                        }
                     }
 
                     System.out.println("Assigning detail:" + loRSDetail.getString("sStockIDx"));
@@ -179,10 +184,18 @@ public class POReceivingNew {
                 }
 
                 String lsSQL;
-                lsSQL = "INSERT INTO Demigration_Map" +
-                       " SET sTableNme = 'PO_Receiving_Master'" + 
-                          ", sTransNox = " + SQLUtil.toSQL(loRSMaster.getString("sTransNox")) +
-                          ", cLastStat = " + SQLUtil.toSQL(loRSMaster.getString("cTranStat"));
+                if(loRSMaster.getString("sTableNme").isEmpty()){
+                    lsSQL = "INSERT INTO Demigration_Map" +
+                           " SET sTableNme = 'PO_Receiving_Master'" + 
+                              ", sTransNox = " + SQLUtil.toSQL(loRSMaster.getString("sTransNox")) +
+                              ", cLastStat = " + SQLUtil.toSQL(loRSMaster.getString("cTranStat"));
+                    
+                }
+                else{
+                    lsSQL = "UPDATE Demigration_Map" +
+                           " SET cLastStat = " + SQLUtil.toSQL(loRSMaster.getString("cTranStat")) +
+                           " WHERE sTransNox = " + SQLUtil.toSQL(loRSMaster.getString("sTransNox"));
+                }
                 poGRider.executeUpdate(lsSQL);
                 
                 if(loRSMaster.getString("cLastStat").isEmpty()){

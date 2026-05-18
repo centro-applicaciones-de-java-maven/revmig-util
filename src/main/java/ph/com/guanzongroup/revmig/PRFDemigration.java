@@ -225,7 +225,7 @@ public class PRFDemigration {
                             " LEFT JOIN Demigration_Map b" +
                                 " ON a.sTransNox = b.sTransNox" +
                                " AND b.sTableNme = " + SQLUtil.toSQL(TABLE_MASTER) +
-                    " WHERE a.cTranStat IN ('4')" +
+                    " WHERE a.nAmtPaidx > 0" +
                       " AND (b.sTransNox IS NULL)" +
                       " AND a.sIndstCdx = " + SQLUtil.toSQL(INDUSTRY) + 
                     " ORDER BY sTransNox";
@@ -275,7 +275,7 @@ public class PRFDemigration {
     private static String getDisbursement(String fsTransNox, String fsSourceCD) throws SQLException{
         String lsSourceCD = fsSourceCD;
         String lsSQL = "SELECT sTransNox" +
-                      " FROM Disbursement_Detail" + 
+                      " FROM GCASys_DBF.Disbursement_Detail" + 
                       " WHERE sSourceCd = " + SQLUtil.toSQL(lsSourceCD) + 
                         " AND sSourceNo = " + SQLUtil.toSQL(fsTransNox);
         ResultSet loRS = poGRider.executeQuery(lsSQL);
@@ -287,7 +287,5 @@ public class PRFDemigration {
             return "";
         }
     }
-    
-    
     
 }

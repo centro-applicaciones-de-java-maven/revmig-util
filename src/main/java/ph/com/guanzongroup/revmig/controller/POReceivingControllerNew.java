@@ -471,7 +471,11 @@ public class POReceivingControllerNew {
             System.out.println("Saving insert for new detail after update...");
             for (int i = poaOldDetail.size(); i < poaDetail.size(); i++) {
                 Map<String, Object> loDetail = poaDetail.get(i);
-
+                
+                if(((String)loDetail.get("sStockIDx")).isEmpty()){
+                    continue;
+                }
+                
                 result = RevMigUtil.createInsertSQL(loDetail, psTableDetail, "");
                 System.out.println(result.get("json"));
 
@@ -831,7 +835,6 @@ public class POReceivingControllerNew {
                 System.out.println("   Key: " + entry.getKey() + ", Value: " + entry.getValue());
             }
         }
-
 
         System.out.println("Showing serial data: +++++++++++++++++++++");
         for (Map<String, Object> detail : poaSerial) {

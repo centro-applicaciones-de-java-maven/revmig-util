@@ -19,7 +19,7 @@ import ph.com.guanzongroup.revmig.controller.POReceivingController;
  *           make sure that the branch code where the items will be created be different from what PSD used.
  *        2) Set the default database to GGC_ISysDBF  
  */
-public class POReceiving {
+public class POReceiving_old {
     final static String[] PSD_BRANCHES = {"GK01", "W005", "M0W1"};
     final static String INDUSTRY = "09";
     static GRider poGRider;
