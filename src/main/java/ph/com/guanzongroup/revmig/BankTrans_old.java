@@ -21,7 +21,7 @@ import static ph.com.guanzongroup.revmig.POReceiving_old.poGRider;
  *
  * @author kalyptus
  */
-public class BankTrans {
+public class BankTrans_old {
     final static String[] PSD_BRANCHES = {"GK01", "W005", "M0W1"};
     final static String INDUSTRY = "09";
     static GRider poGRider;
@@ -146,7 +146,7 @@ public class BankTrans {
             poGRider.rollbackTrans();
 
         } catch (SQLException ex) {
-            Logger.getLogger(BankTrans.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BankTrans_old.class.getName()).log(Level.SEVERE, null, ex);
         }
     }    
 }
