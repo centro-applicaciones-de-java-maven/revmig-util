@@ -1,18 +1,18 @@
-D:\GMC_SEG_Folder-CAS\revmig-util\src\main\java\ph\com\guanzongroup\migration\util\PopulateColumnTable.java
-D:\GMC_SEG_Folder-CAS\revmig-util\src\main\java\ph\com\guanzongroup\revmig\BankTrans.java
-D:\GMC_SEG_Folder-CAS\revmig-util\src\main\java\ph\com\guanzongroup\revmig\controller\POReceivingController.java
-D:\GMC_SEG_Folder-CAS\revmig-util\src\main\java\ph\com\guanzongroup\revmig\controller\POReceivingControllerNew.java
-D:\GMC_SEG_Folder-CAS\revmig-util\src\main\java\ph\com\guanzongroup\revmig\DisbursementDemigration.java
-D:\GMC_SEG_Folder-CAS\revmig-util\src\main\java\ph\com\guanzongroup\revmig\lib\RevMigAPClientTrans.java
-D:\GMC_SEG_Folder-CAS\revmig-util\src\main\java\ph\com\guanzongroup\revmig\lib\RevMigBankAccountTrans.java
-D:\GMC_SEG_Folder-CAS\revmig-util\src\main\java\ph\com\guanzongroup\revmig\lib\RevMigInvConstant.java
-D:\GMC_SEG_Folder-CAS\revmig-util\src\main\java\ph\com\guanzongroup\revmig\lib\RevMigInvTrans.java
-D:\GMC_SEG_Folder-CAS\revmig-util\src\main\java\ph\com\guanzongroup\revmig\lib\RevMigUtil.java
-D:\GMC_SEG_Folder-CAS\revmig-util\src\main\java\ph\com\guanzongroup\revmig\model\List_Model_Base.java
-D:\GMC_SEG_Folder-CAS\revmig-util\src\main\java\ph\com\guanzongroup\revmig\model\Model_Base.java
-D:\GMC_SEG_Folder-CAS\revmig-util\src\main\java\ph\com\guanzongroup\revmig\model\pojo\POJO_Base.java
-D:\GMC_SEG_Folder-CAS\revmig-util\src\main\java\ph\com\guanzongroup\revmig\PODemigration.java
-D:\GMC_SEG_Folder-CAS\revmig-util\src\main\java\ph\com\guanzongroup\revmig\POReceiving_old.java
-D:\GMC_SEG_Folder-CAS\revmig-util\src\main\java\ph\com\guanzongroup\revmig\POReceivingNew.java
-D:\GMC_SEG_Folder-CAS\revmig-util\src\main\java\ph\com\guanzongroup\revmig\PRFDemigration.java
-D:\GMC_SEG_Folder-CAS\revmig-util\src\main\java\ph\com\guanzongroup\revmig\testPOReceiving.java
+D:\Guanzon\GMC SEG Folder - Maven\revmig-util\src\main\java\ph\com\guanzongroup\revmig\model\pojo\POJO_Base.java
+D:\Guanzon\GMC SEG Folder - Maven\revmig-util\src\main\java\ph\com\guanzongroup\revmig\lib\RevMigInvConstant.java
+D:\Guanzon\GMC SEG Folder - Maven\revmig-util\src\main\java\ph\com\guanzongroup\revmig\model\List_Model_Base.java
+D:\Guanzon\GMC SEG Folder - Maven\revmig-util\src\main\java\ph\com\guanzongroup\revmig\POReceivingNew.java
+D:\Guanzon\GMC SEG Folder - Maven\revmig-util\src\main\java\ph\com\guanzongroup\revmig\PRFDemigration.java
+D:\Guanzon\GMC SEG Folder - Maven\revmig-util\src\main\java\ph\com\guanzongroup\revmig\BankTrans_old.java
+D:\Guanzon\GMC SEG Folder - Maven\revmig-util\src\main\java\ph\com\guanzongroup\revmig\controller\POReceivingController.java
+D:\Guanzon\GMC SEG Folder - Maven\revmig-util\src\main\java\ph\com\guanzongroup\revmig\POReceiving_old.java
+D:\Guanzon\GMC SEG Folder - Maven\revmig-util\src\main\java\ph\com\guanzongroup\revmig\lib\RevMigInvTrans.java
+D:\Guanzon\GMC SEG Folder - Maven\revmig-util\src\main\java\ph\com\guanzongroup\revmig\lib\RevMigUtil.java
+D:\Guanzon\GMC SEG Folder - Maven\revmig-util\src\main\java\ph\com\guanzongroup\revmig\lib\RevMigAPClientTrans.java
+D:\Guanzon\GMC SEG Folder - Maven\revmig-util\src\main\java\ph\com\guanzongroup\revmig\testPOReceiving.java
+D:\Guanzon\GMC SEG Folder - Maven\revmig-util\src\main\java\ph\com\guanzongroup\migration\util\PopulateColumnTable.java
+D:\Guanzon\GMC SEG Folder - Maven\revmig-util\src\main\java\ph\com\guanzongroup\revmig\DisbursementDemigration.java
+D:\Guanzon\GMC SEG Folder - Maven\revmig-util\src\main\java\ph\com\guanzongroup\revmig\controller\POReceivingControllerNew.java
+D:\Guanzon\GMC SEG Folder - Maven\revmig-util\src\main\java\ph\com\guanzongroup\revmig\lib\RevMigBankAccountTrans.java
+D:\Guanzon\GMC SEG Folder - Maven\revmig-util\src\main\java\ph\com\guanzongroup\revmig\model\Model_Base.java
+D:\Guanzon\GMC SEG Folder - Maven\revmig-util\src\main\java\ph\com\guanzongroup\revmig\PODemigration.java

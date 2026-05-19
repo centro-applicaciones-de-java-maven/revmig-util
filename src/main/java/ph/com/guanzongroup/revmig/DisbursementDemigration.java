@@ -11,6 +11,8 @@ import org.guanzon.appdriver.base.GRider;
 import org.guanzon.appdriver.base.GuanzonException;
 import org.guanzon.appdriver.base.LogWrapper;
 import org.guanzon.appdriver.base.SQLUtil;
+import org.guanzon.appdriver.base.StringHelper;
+import org.guanzon.appdriver.base.StringHelperMisc;
 import org.json.simple.JSONObject;
 import static ph.com.guanzongroup.revmig.POReceivingNew.poGRider;
 import ph.com.guanzongroup.revmig.lib.RevMigAPClientTrans;
@@ -38,7 +40,7 @@ public class DisbursementDemigration {
             path = "D:/GGC_Maven_Systems";
         }
         else{
-            path = "/srv/mac/GGC_Java_Systems";
+            path = "/srv/GGC_Maven_Systems";
         }
 
         System.setProperty("sys.default.path.temp", path + "/temp");
@@ -47,7 +49,7 @@ public class DisbursementDemigration {
         String lsProdctID = "gRider";
 
         //TODO: temporarily used my user id for testing
-        String lsUserIDxx = "M001111122";
+        String lsUserIDxx = "08220326";
         //String lsUserIDxx = "M001250012";
 
         poGRider = null;
@@ -158,12 +160,18 @@ public class DisbursementDemigration {
                 //get Client ID of the source transaction
                 lsClientID = getClientString(lsSourceNo, lsSourceCD);
                 
+                if (loRSMaster.getString("sRemarksx").length() > 128){
+                    lsSQL = loRSMaster.getString("sRemarksx").substring(0, 128);
+                } else {
+                    lsSQL = loRSMaster.getString("sRemarksx");
+                }
+                
                 //create the AP Payment transaction from Disbursement_Master
                 lsSQL = "INSERT INTO AP_Payment_Master" + 
                        " SET sTransNox = " + SQLUtil.toSQL(lxTransNox) +
                           ", sClientID = " + SQLUtil.toSQL(lsClientID) +
                           ", dTransact = " + SQLUtil.toSQL(loRSMaster.getDate("dTransact")) +
-                          ", sRemarksx = " + SQLUtil.toSQL(loRSMaster.getString("sRemarksx")) +
+                          ", sRemarksx = " + SQLUtil.toSQL(lsSQL) +
                           ", nTranTotl = " + SQLUtil.toSQL(loRSMaster.getDouble("nTranTotl") + lnCredtTot) +
                           ", nCashAmtx = 0.00" + 
                           ", nCheckAmt = " + SQLUtil.toSQL(loRSMaster.getDouble("nTranTotl")) +
@@ -314,11 +322,11 @@ public class DisbursementDemigration {
         while(foRS.next()){
             String lsSQL = "SELECT sPrtclrID" + 
                           " FROM Particular" +  
-                          " WHERE sPrtclrID = " + SQLUtil.toSQL(foRS.getString("sStockIDx")); 
+                          " WHERE sPrtclrID = " + SQLUtil.toSQL(foRS.getString("sPrtclrID")); 
             System.out.println(lsSQL);
             ResultSet loRS = poGRider.executeQuery(lsSQL);
             
-            if(!loRS.next()){
+            if(loRS.next()){
                 System.out.println("Copying Particular: " + foRS.getString("sPrtclrID"));
                 copyParticulars(foRS.getString("sPrtclrID"));
             }

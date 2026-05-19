@@ -33,7 +33,7 @@ public class PRFDemigration {
             path = "D:/GGC_Maven_Systems";
         }
         else{
-            path = "/srv/mac/GGC_Java_Systems";
+            path = "/srv/GGC_Maven_Systems";
         }
 
         System.setProperty("sys.default.path.temp", path + "/temp");
@@ -42,7 +42,7 @@ public class PRFDemigration {
         String lsProdctID = "gRider";
 
         //TODO: temporarily used my user id for testing
-        String lsUserIDxx = "M001111122";
+        String lsUserIDxx = "08220326";
         //String lsUserIDxx = "M001250012";
 
         poGRider = null;

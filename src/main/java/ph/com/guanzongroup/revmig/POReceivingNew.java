@@ -35,18 +35,18 @@ public class POReceivingNew {
             path = "D:/GGC_Maven_Systems";
         }
         else{
-            path = "/srv/mac/GGC_Maven_Systems";
+            path = "/srv/GGC_Maven_Systems";
         }
         
         System.setProperty("sys.default.path.temp", path + "/temp");
         System.setProperty("sys.default.path.config", path);
-        System.setProperty("sys.default.path.metadata", "D:/GGC_Java_Systems/metadata/");
+        System.setProperty("sys.default.path.metadata", path + "/config/metadata/");
         
         
         String lsProdctID = "gRider";
 
         //TODO: temporarily used my user id for testing
-        String lsUserIDxx = "M001111122";
+        String lsUserIDxx = "08220326";
         //String lsUserIDxx = "M001250012";
         
         poGRider = null;

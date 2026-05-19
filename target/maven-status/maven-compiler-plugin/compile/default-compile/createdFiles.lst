@@ -1,7 +1,7 @@
-ph\com\guanzongroup\revmig\BankTrans.class
 ph\com\guanzongroup\revmig\lib\RevMigUtil$2.class
 ph\com\guanzongroup\revmig\PODemigration.class
 ph\com\guanzongroup\revmig\POReceivingNew.class
+ph\com\guanzongroup\revmig\BankTrans_old.class
 ph\com\guanzongroup\revmig\lib\RevMigAPClientTrans.class
 ph\com\guanzongroup\revmig\lib\RevMigInvConstant.class
 ph\com\guanzongroup\revmig\lib\RevMigInvTrans$SerialEntry.class
