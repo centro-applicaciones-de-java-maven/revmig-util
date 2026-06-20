@@ -319,7 +319,7 @@ public class POReceivingNew {
 			", sBarCodex sBarrcode" +	
 			", sDescript" +	
 			", sBrandIDx" +	
-			", sModelIDx" +	
+			", IFNULL(sModelIDx, '') sModelIDx" +	
 			", '' sMadeIDxx" +	
 			", sColorIDx" +	
 			", '' sSizeIDxx" +	
